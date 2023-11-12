@@ -1,28 +1,28 @@
 import express, { Response } from "express";
 import bodyParser from "body-parser";
-import ejs from 'ejs';
+import ejs from "ejs";
+import { v4 as uuidv4 } from "uuid";
 
 type ToDo = {
   name: string,
-  id: number,
+  id: string,
 };
 
 interface HomeResponse extends Omit<Response, 'render'> {
   render: (view: string, options?: { title: string, message: string, todos: ToDo[] }) => void;
 };
 
-
-const todos: ToDo[] = [
+let todos: ToDo[] = [
   {
-    id: 1,
+    id: uuidv4(),
     name: "First",
   },
   {
-    id: 2,
+    id: uuidv4(),
     name: "Second"
   },
   {
-    id: 3,
+    id: uuidv4(),
     name: "Third",
   },
 ];
@@ -41,7 +41,13 @@ app.get("/", (req, res: HomeResponse) => {
 });
 
 app.post("/todos", async (req, res) => {
-  todos.push({ id: 4, name: "Fourth" });
+  todos.push({ id: uuidv4(), name: "Fourth" });
+  const markup = await ejs.renderFile('./views/partials/todos.ejs', { todos });
+  res.send(markup);
+});
+
+app.delete("/todos/:id", async (req, res) => {
+  todos = todos.filter(todo => todo.id !== req.params.id);
   const markup = await ejs.renderFile('./views/partials/todos.ejs', { todos });
   res.send(markup);
 });

@@ -1,5 +1,7 @@
 <ul>
   <% todos.forEach(todo => { %>
-    <li><%= todo.name %></li>
+    <li hx-delete="<%= `/todos/${todo.id}` %>" hx-target="#todo-list">
+      <%= todo.name %>
+    </li>
   <% }); %>
 </ul>
