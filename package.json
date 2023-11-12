@@ -5,7 +5,10 @@
   "main": "index.ts",
   "scripts": {
     "dev": "nodemon index.ts",
-    "build": "npx tsc"
+    "start": "node ./dist/index.js",
+    "clean": "rimraf ./dist",
+    "copy-static": "cp -r ./views ./dist/views",
+    "build": "npm run clean && npx tsc && npm run copy-static"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +26,7 @@
     "@types/express": "^4.17.21",
     "@types/node": "^20.9.0",
     "@types/nodemon": "^1.19.5",
+    "rimraf": "^5.0.5",
     "typescript": "^5.2.2"
   }
 }
