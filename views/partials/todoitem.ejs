@@ -1,0 +1,7 @@
+<li>
+  <p>
+    <%= todo.name %>
+  </p>
+  <button hx-get="<%= `/todos/${todo.id}/edit` %>">Edit</button>
+  <button hx-delete="<%= `/todos/${todo.id}` %>">Delete</button>
+</li>

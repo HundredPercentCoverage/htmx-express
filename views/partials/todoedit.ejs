@@ -1,0 +1,8 @@
+<form hx-put="<%= `/todos/${todo.id}` %>" hx-target="this" hx-swap="outerHTML">
+  <div>
+    <label>Name</label>
+    <input type="text" name="name" id="todo-name" value="<%= todo.name %>">
+  </div>
+  <button type="submit">Submit</button>
+  <button hx-get="<%= `/todos/${todo.id}` %>">Cancel</button>
+</form>

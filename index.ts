@@ -30,26 +30,64 @@ let todos: ToDo[] = [
 const app = express();
 
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-app.get("/", (req, res: HomeResponse) => {
+app.get("/", (_, res: HomeResponse) => {
   console.log("GET received");
 
   res.render('index', { title: 'Home', message: 'Potato', todos });
 });
 
-app.post("/todos", async (req, res) => {
+app.get("/todos/:id", async (req, res) => {
+  const todo = todos.find(el => el.id === req.params.id);
+
+  if (!todo) {
+    res.status(500).json({ message: "Error - no such item"});
+  }
+
+  const markup = await ejs.renderFile("./views/partials/todoitem.ejs", { todo });
+  res.send(markup);
+});
+
+app.get("/todos/:id/edit", async (req, res) => {
+  const todo = todos.find(el => el.id === req.params.id);
+
+  if (!todo) {
+    res.status(500).json({ message: "Error - no such item"});
+  }
+
+  const markup = await ejs.renderFile("./views/partials/todoedit.ejs", { todo });
+  res.send(markup);
+});
+
+app.post("/todos", async (_, res) => {
   todos.push({ id: uuidv4(), name: "Fourth" });
   const markup = await ejs.renderFile('./views/partials/todos.ejs', { todos });
   res.send(markup);
 });
 
+app.put("/todos/:id", async (req, res) => {
+  // Check body with zod
+  const { name } = req.body;
+  const idx = todos.findIndex(todo => todo.id === req.params.id);
+
+  if (!!idx) {
+    res.status(500).json({ message: "Error - no such item"});
+  }
+
+  const updatedTodo: ToDo = { id: todos[idx].id, name };
+  todos.splice(idx, 1, updatedTodo);
+
+  const markup = await ejs.renderFile("./views/partials/todoitem.ejs", { todo: updatedTodo });
+  res.send(markup);
+});
+
 app.delete("/todos/:id", async (req, res) => {
   todos = todos.filter(todo => todo.id !== req.params.id);
-  const markup = await ejs.renderFile('./views/partials/todos.ejs', { todos });
-  res.send(markup);
+  res.send('');
 });
 
 app.listen(3000, () => {
