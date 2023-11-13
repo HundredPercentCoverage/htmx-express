@@ -36,8 +36,6 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.get("/", (_, res: HomeResponse) => {
-  console.log("GET received");
-
   res.render('index', { title: 'Home', message: 'Potato', todos });
 });
 
@@ -45,7 +43,7 @@ app.get("/todos/:id", async (req, res) => {
   const todo = todos.find(el => el.id === req.params.id);
 
   if (!todo) {
-    res.status(500).json({ message: "Error - no such item"});
+    return res.status(500).json({ message: "Error - no such item"});
   }
 
   const markup = await ejs.renderFile("./views/partials/todoitem.ejs", { todo });
@@ -56,7 +54,7 @@ app.get("/todos/:id/edit", async (req, res) => {
   const todo = todos.find(el => el.id === req.params.id);
 
   if (!todo) {
-    res.status(500).json({ message: "Error - no such item"});
+    return res.status(500).json({ message: "Error - no such item"});
   }
 
   const markup = await ejs.renderFile("./views/partials/todoedit.ejs", { todo });
@@ -65,6 +63,7 @@ app.get("/todos/:id/edit", async (req, res) => {
 
 app.post("/todos", async (_, res) => {
   todos.push({ id: uuidv4(), name: "Fourth" });
+
   const markup = await ejs.renderFile('./views/partials/todos.ejs', { todos });
   res.send(markup);
 });
@@ -74,8 +73,8 @@ app.put("/todos/:id", async (req, res) => {
   const { name } = req.body;
   const idx = todos.findIndex(todo => todo.id === req.params.id);
 
-  if (!!idx) {
-    res.status(500).json({ message: "Error - no such item"});
+  if (idx < 0) {
+    return res.status(500).json({ message: "Error - no such item"});
   }
 
   const updatedTodo: ToDo = { id: todos[idx].id, name };
