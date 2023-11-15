@@ -9,11 +9,27 @@ body {
 
 .container {
   margin: 0 auto;
+  padding: 0 1em;
   max-width: 1200px;
 }
 
-li {
+.header {
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  background-color: black;
+}
+.header h2 {
   font-weight: bold;
 }
+.header ul {
+  display: flex;
+  gap: 1em;
+  list-style: none;
+}
 
-/*# sourceMappingURL=index.css.map */
+.todo-list li {
+  font-weight: bold;
+}

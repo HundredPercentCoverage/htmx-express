@@ -11,9 +11,31 @@ body {
 
 .container {
   margin: 0 auto;
+  padding: 0 1em;
   max-width: map-get($breakpoints, "xl");
 }
 
-li {
-  font-weight: bold;
+.header {
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  background-color: black;
+
+  h2 {
+    font-weight: bold;
+  }
+
+  ul {
+    display: flex;
+    gap: 1em;
+    list-style: none;
+  }
+}
+
+.todo-list {
+  li {
+    font-weight: bold;
+  }
 }
