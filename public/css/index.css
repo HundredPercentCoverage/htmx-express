@@ -1,0 +1,19 @@
+* {
+  color: inherit;
+  margin: 0;
+}
+
+body {
+  font-family: Poppins;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+li {
+  font-weight: bold;
+}
+
+/*# sourceMappingURL=index.css.map */

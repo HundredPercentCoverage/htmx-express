@@ -2,6 +2,7 @@ import express, { Response } from "express";
 import bodyParser from "body-parser";
 import ejs from "ejs";
 import { v4 as uuidv4 } from "uuid";
+import path from "path";
 
 type ToDo = {
   name: string,
@@ -31,12 +32,13 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
 app.get("/", (_, res: HomeResponse) => {
-  res.render('index', { title: 'Home', message: 'Potato', todos });
+  res.render('index', { title: 'Home', message: 'ToDo', todos });
 });
 
 app.get("/todos/:id", async (req, res) => {

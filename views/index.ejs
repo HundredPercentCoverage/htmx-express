@@ -2,13 +2,15 @@
 <html lang="en">
 <%- include ("./partials/head") %>
 <body>
-  <h1><%= message %></h1>
-  <p>Todos</p>
-  <div id="todo-list">
-    <%- include ("./partials/todos") %>
+  <div class="container">
+    <h1><%= message %></h1>
+    <p>Todos</p>
+    <div id="todo-list">
+      <%- include ("./partials/todos") %>
+    </div>
+    <button hx-post="/todos" hx-target="#todo-list">
+      Add Todo
+    </button>
   </div>
-  <button hx-post="/todos" hx-target="#todo-list">
-    Add Todo
-  </button>
 </body>
 </html>
