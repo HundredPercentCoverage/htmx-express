@@ -9,7 +9,7 @@
     "sass": "sass ./scss/index.scss ./public/css/index.css --watch --no-source-map",
     "dev:sass": "concurrently \"npm:sass\" \"npm:dev\"",
     "clean": "rimraf ./dist",
-    "copy-static": "cp -r ./views ./dist/views",
+    "copy-static": "cp -r ./views ./dist/views && cp -r ./public ./dist/public",
     "build": "npm run clean && npx tsc && npm run copy-static"
   },
   "keywords": [],
