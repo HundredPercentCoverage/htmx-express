@@ -1,6 +1,6 @@
 <li hx-target="this" hx-swap="outerHTML">
   <p>
-    <%= todo.name %>
+    <%= todo.title %>
   </p>
   <button hx-get="<%= `/todos/${todo.id}/edit` %>">Edit</button>
   <button hx-delete="<%= `/todos/${todo.id}` %>">Delete</button>
