@@ -1,6 +1,6 @@
-# htmx-Express
+# htmx-express
 
-Simple todo app using [htmx](https://htmx.org/) and [Express](https://expressjs.com/) with [TypeScript](https://www.typescriptlang.org/).
+Simple todo app using [htmx](https://htmx.org/), [Express](https://expressjs.com/) and [Prisma](https://www.prisma.io/) with [TypeScript](https://www.typescriptlang.org/).
 
 ### Setup
 - Clone
