@@ -6,10 +6,10 @@
   <div class="container">
     <h1><%= message %></h1>
     <p>Todos</p>
-    <div id="todo-list">
+    <div>
       <%- include ("./partials/todos") %>
     </div>
-    <button hx-post="/todos" hx-target="#todo-list">
+    <button hx-post="/todos" hx-target="#todo-list" hx-swap="beforeend">
       Add Todo
     </button>
   </div>
