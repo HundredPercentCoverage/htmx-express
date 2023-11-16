@@ -1,48 +1,26 @@
-import express, { Response } from "express";
-import bodyParser from "body-parser";
+import "dotenv/config";
+import express from "express";
 import ejs from "ejs";
-import { v4 as uuidv4 } from "uuid";
 import path from "path";
+import { PrismaClient } from "@prisma/client";
 
-type ToDo = {
-  name: string,
-  id: string,
-};
-
-interface HomeResponse extends Omit<Response, 'render'> {
-  render: (view: string, options?: { title: string, message: string, todos: ToDo[] }) => void;
-};
-
-let todos: ToDo[] = [
-  {
-    id: uuidv4(),
-    name: "First",
-  },
-  {
-    id: uuidv4(),
-    name: "Second"
-  },
-  {
-    id: uuidv4(),
-    name: "Third",
-  },
-];
-
+const prisma = new PrismaClient();
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-app.get("/", (_, res: HomeResponse) => {
+app.get("/", async(_, res) => {
+  const todos = await prisma.todo.findMany();
   res.render('index', { title: 'Home', message: 'ToDo', todos });
 });
 
 app.get("/todos/:id", async (req, res) => {
-  const todo = todos.find(el => el.id === req.params.id);
+  const todo = await prisma.todo.findUnique({ where: { id: Number(req.params.id) }});
 
   if (!todo) {
     return res.status(500).json({ message: "Error - no such item"});
@@ -53,7 +31,7 @@ app.get("/todos/:id", async (req, res) => {
 });
 
 app.get("/todos/:id/edit", async (req, res) => {
-  const todo = todos.find(el => el.id === req.params.id);
+  const todo = await prisma.todo.findUnique({ where: { id: Number(req.params.id) }});
 
   if (!todo) {
     return res.status(500).json({ message: "Error - no such item"});
@@ -64,30 +42,24 @@ app.get("/todos/:id/edit", async (req, res) => {
 });
 
 app.post("/todos", async (_, res) => {
-  todos.push({ id: uuidv4(), name: "Fourth" });
+  const todo = await prisma.todo.create({ data: { title: "New todo" }});
 
-  const markup = await ejs.renderFile('./views/partials/todos.ejs', { todos });
+  const markup = await ejs.renderFile("./views/partials/todoitem.ejs", { todo });
   res.send(markup);
 });
 
 app.put("/todos/:id", async (req, res) => {
   // Check body with zod
-  const { name } = req.body;
-  const idx = todos.findIndex(todo => todo.id === req.params.id);
+  const { title } = req.body;
 
-  if (idx < 0) {
-    return res.status(500).json({ message: "Error - no such item"});
-  }
+  const todo = await prisma.todo.update({ where: { id: Number(req.params.id) }, data: { title } });
 
-  const updatedTodo: ToDo = { id: todos[idx].id, name };
-  todos.splice(idx, 1, updatedTodo);
-
-  const markup = await ejs.renderFile("./views/partials/todoitem.ejs", { todo: updatedTodo });
+  const markup = await ejs.renderFile("./views/partials/todoitem.ejs", { todo });
   res.send(markup);
 });
 
 app.delete("/todos/:id", async (req, res) => {
-  todos = todos.filter(todo => todo.id !== req.params.id);
+  await prisma.todo.delete({ where: { id: Number(req.params.id) } });
   res.send('');
 });
 
