@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include ("./partials/head") %>
-<body>
-  <%- include ("./partials/header") %>
-  <div class="container">
-    <h1><%= message %></h1>
-    <p>Todos</p>
-    <div>
-      <%- include ("./partials/todos") %>
-    </div>
-    <button hx-post="/todos" hx-target="#todo-list" hx-swap="beforeend">
-      Add Todo
-    </button>
-  </div>
-</body>
+
+  <body>
+    <%- include ("./partials/header") %>
+      <div class="container">
+        <h1>
+          <%= message %>
+        </h1>
+        <p>Todos</p>
+        <div>
+          <%- include ("./partials/todos") %>
+        </div>
+        <button hx-post="/todos" hx-target="#todo-list" hx-swap="beforeend">
+          Add Todo
+        </button>
+      </div>
+  </body>
+
 </html>
