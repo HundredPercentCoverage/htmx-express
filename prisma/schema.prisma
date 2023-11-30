@@ -11,6 +11,20 @@ datasource db {
 }
 
 model Todo {
-  id        Int     @default(autoincrement()) @id
-  title     String
+  id    Int    @id @default(autoincrement())
+  title String
+}
+
+model User {
+  id              Int    @id @default(autoincrement())
+  username        String @unique
+  hashed_password Bytes
+  salt            Bytes
+}
+
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime
 }
