@@ -11,8 +11,10 @@ datasource db {
 }
 
 model Todo {
-  id    Int    @id @default(autoincrement())
-  title String
+  id       Int    @id @default(autoincrement())
+  title    String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId Int
 }
 
 model User {
@@ -20,6 +22,7 @@ model User {
   username        String @unique
   hashed_password Bytes
   salt            Bytes
+  todos           Todo[]
 }
 
 model Session {
