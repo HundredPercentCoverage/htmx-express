@@ -25,15 +25,13 @@ passport.use(
 );
 
 // Types here are sketchy
-passport.serializeUser(function (user: any, done) {
-  console.log("serializeUser");
+passport.serializeUser(function (user, done) {
   // process.nextTick(function () {
   done(null, { id: user.id, username: user.username });
   // });
 });
 
-passport.deserializeUser(function (user: any, done) {
-  console.log("deserialise", user);
+passport.deserializeUser(function (user: Express.User, done) {
   process.nextTick(async function () {
     return done(null, user);
   });
