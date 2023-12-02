@@ -38,7 +38,13 @@ app.set("view engine", "ejs");
 
 app.get("/", async (req, res) => {
   console.log("/ user", req.user);
-  const todos = await prisma.todo.findMany();
+
+  if (!req.user) {
+    return res.redirect("/auth/login");
+  }
+  const todos = await prisma.todo.findMany({
+    where: { authorId: req.user?.id },
+  });
   res.render("index", { title: "Home", message: "ToDo", todos });
 });
 
@@ -72,8 +78,12 @@ app.get("/todos/:id/edit", async (req, res) => {
   res.send(markup);
 });
 
-app.post("/todos", async (_, res) => {
-  const todo = await prisma.todo.create({ data: { title: "New todo" } });
+app.post("/todos", async (req, res) => {
+  if (!req.user) return res.status(500);
+
+  const todo = await prisma.todo.create({
+    data: { title: "New todo", authorId: req.user.id },
+  });
 
   const markup = await ejs.renderFile("./views/partials/todoitem.ejs", {
     todo,
