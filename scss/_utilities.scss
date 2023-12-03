@@ -1,0 +1,6 @@
+@import "./breakpoints";
+
+@mixin centred-screen-xl {
+  margin: 0 auto;
+  max-width: map-get($breakpoints, "xl");
+}
