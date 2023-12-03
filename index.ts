@@ -39,11 +39,12 @@ app.set("view engine", "ejs");
 app.get("/", async (req, res) => {
   console.log("/ user", req.user);
 
-  if (!req.user) {
+  if (!req.isAuthenticated()) {
     return res.redirect("/auth/login");
   }
+
   const todos = await prisma.todo.findMany({
-    where: { authorId: req.user?.id },
+    where: { authorId: req.user.id },
   });
   res.render("index", { title: "Home", message: "ToDo", todos });
 });
