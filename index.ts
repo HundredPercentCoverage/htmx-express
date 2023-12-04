@@ -50,8 +50,12 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/todos/:id", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(304).send("Unauthorised");
+  }
+
   const todo = await prisma.todo.findUnique({
-    where: { id: Number(req.params.id) },
+    where: { id: Number(req.params.id), authorId: req.user.id },
   });
 
   if (!todo) {
@@ -65,8 +69,12 @@ app.get("/todos/:id", async (req, res) => {
 });
 
 app.get("/todos/:id/edit", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(304).send("Unauthorised");
+  }
+
   const todo = await prisma.todo.findUnique({
-    where: { id: Number(req.params.id) },
+    where: { id: Number(req.params.id), authorId: req.user.id },
   });
 
   if (!todo) {
@@ -80,7 +88,9 @@ app.get("/todos/:id/edit", async (req, res) => {
 });
 
 app.post("/todos", async (req, res) => {
-  if (!req.user) return res.status(500);
+  if (!req.isAuthenticated()) {
+    return res.status(304).send("Unauthorised");
+  }
 
   const todo = await prisma.todo.create({
     data: { title: "New todo", authorId: req.user.id },
@@ -93,6 +103,9 @@ app.post("/todos", async (req, res) => {
 });
 
 app.put("/todos/:id", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(304).send("Unauthorised");
+  }
   // Check body with zod
   const { title } = req.body;
 
@@ -108,6 +121,9 @@ app.put("/todos/:id", async (req, res) => {
 });
 
 app.delete("/todos/:id", async (req, res) => {
+  if (!req.isAuthenticated()) {
+    return res.status(304).send("Unauthorised");
+  }
   await prisma.todo.delete({ where: { id: Number(req.params.id) } });
   res.send("");
 });
