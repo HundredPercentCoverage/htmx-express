@@ -2,7 +2,7 @@ import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
 import ejs, { name, render } from "ejs";
 import { renderToStaticMarkup } from "react-dom/server";
-import TestComponent from "../views/components/TestComponent";
+import HomePage from "../views/pages/HomePage";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -100,7 +100,7 @@ router.delete("/todos/:id", async (req, res) => {
 });
 
 router.get("/test", (req, res) => {
-  const markup = renderToStaticMarkup(<TestComponent name="hello" />);
+  const markup = renderToStaticMarkup(<HomePage />);
   res.send(markup);
 });
 
