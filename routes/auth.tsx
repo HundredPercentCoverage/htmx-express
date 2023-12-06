@@ -3,6 +3,8 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import { pbkdf2, timingSafeEqual } from "node:crypto";
 import { PrismaClient } from "@prisma/client";
+import { renderToStaticMarkup } from "react-dom/server";
+import LoginPage from "../views/pages/LoginPage";
 
 const prisma = new PrismaClient();
 
@@ -39,8 +41,9 @@ passport.deserializeUser(function (user: Express.User, done) {
 
 const router = express.Router();
 
-router.get("/login", (req, res) => {
-  res.render("login", { title: "Login" });
+router.get("/login", (_req, res) => {
+  const markup = renderToStaticMarkup(<LoginPage />);
+  res.send(markup);
 });
 
 router.post(
