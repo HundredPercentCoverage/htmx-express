@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { PrismaClient } from "@prisma/client";
-import ejs, { name, render } from "ejs";
 import { renderToStaticMarkup } from "react-dom/server";
 import HomePage from "../views/pages/HomePage";
+import TodoItem from "../views/components/TodoItem";
+import TodoEditForm from "../views/components/TodoEditForm";
 
 const prisma = new PrismaClient();
 const router = Router();
@@ -17,7 +18,9 @@ router.get("/", async (req, res) => {
   const todos = await prisma.todo.findMany({
     where: { authorId: req.user.id },
   });
-  res.render("index", { title: "Home", message: "ToDo", todos });
+
+  const markup = renderToStaticMarkup(<HomePage todos={todos} />);
+  res.send(markup);
 });
 
 router.get("/todos/:id", async (req, res) => {
@@ -33,9 +36,7 @@ router.get("/todos/:id", async (req, res) => {
     return res.status(500).json({ message: "Error - no such item" });
   }
 
-  const markup = await ejs.renderFile("./views/partials/todoitem.ejs", {
-    todo,
-  });
+  const markup = renderToStaticMarkup(<TodoItem todo={todo} />);
   res.send(markup);
 });
 
@@ -52,9 +53,7 @@ router.get("/todos/:id/edit", async (req, res) => {
     return res.status(500).json({ message: "Error - no such item" });
   }
 
-  const markup = await ejs.renderFile("./views/partials/todoedit.ejs", {
-    todo,
-  });
+  const markup = renderToStaticMarkup(<TodoEditForm todo={todo} />);
   res.send(markup);
 });
 
@@ -67,9 +66,7 @@ router.post("/todos", async (req, res) => {
     data: { title: "New todo", authorId: req.user.id },
   });
 
-  const markup = await ejs.renderFile("./views/partials/todoitem.ejs", {
-    todo,
-  });
+  const markup = renderToStaticMarkup(<TodoItem todo={todo} />);
   res.send(markup);
 });
 
@@ -85,9 +82,7 @@ router.put("/todos/:id", async (req, res) => {
     data: { title },
   });
 
-  const markup = await ejs.renderFile("./views/partials/todoitem.ejs", {
-    todo,
-  });
+  const markup = renderToStaticMarkup(<TodoItem todo={todo} />);
   res.send(markup);
 });
 
@@ -97,11 +92,6 @@ router.delete("/todos/:id", async (req, res) => {
   }
   await prisma.todo.delete({ where: { id: Number(req.params.id) } });
   res.send("");
-});
-
-router.get("/test", (req, res) => {
-  const markup = renderToStaticMarkup(<HomePage />);
-  res.send(markup);
 });
 
 export default router;
