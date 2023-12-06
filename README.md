@@ -2,12 +2,17 @@
 
 Simple todo app using [htmx](https://htmx.org/), [Express](https://expressjs.com/) and [Prisma](https://www.prisma.io/) with [TypeScript](https://www.typescriptlang.org/).
 
+Also using React to server-side render components like a templating engine, to give a type-safe DX vs. EJS or Pug.
+
 ### Setup
+
 - Clone
 - `npm install`
 - `npm run dev`
+- Or `npm run dev:sass` to watch any Sass files for changes
 
 ### Notes
+
 [htmx](https://htmx.org/) makes just about any HTML element capable of sending HTTP requests and directing the response to another element, such that for example a submit button can send a POST request directly to the server and target the server response to a separate `<div>` element.
 
 The server should return Hypermedia (HTML) rather than JSON in the response. This Express server does so using the EJS templating engine, but the others can be used too.
