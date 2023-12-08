@@ -1,4 +1,4 @@
-# htmx-express
+# htmxpress
 
 Simple todo app using [htmx](https://htmx.org/), [Express](https://expressjs.com/) and [Prisma](https://www.prisma.io/) with [TypeScript](https://www.typescriptlang.org/).
 
