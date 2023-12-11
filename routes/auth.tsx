@@ -46,13 +46,33 @@ router.get("/login", (_req, res) => {
   res.send(markup);
 });
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/auth/login",
-  })
-);
+// router.post(
+//   "/login",
+//   passport.authenticate("local", {
+//     successRedirect: "/",
+//     failureRedirect: "/auth/login",
+//   })
+// );
+
+router.post("/login", (req, res, next) => {
+  passport.authenticate(
+    "local",
+    function (err: any, user: Express.User, info: any) {
+      if (err) throw err;
+
+      if (!user) {
+        res.setHeader("HX-Redirect", "/auth/login");
+        return res.send("");
+      }
+
+      req.logIn(user, function (err) {
+        if (err) throw err;
+        res.setHeader("HX-Redirect", "/");
+        return res.send("");
+      });
+    }
+  )(req, res, next);
+});
 
 router.post("/logout", (req, res, next) => {
   req.logOut(function (err) {
