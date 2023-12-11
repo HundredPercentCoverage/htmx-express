@@ -17,6 +17,7 @@ const RootLayout: React.FC<Props> = ({ children, title }) => {
           integrity="sha384-rgjA7mptc2ETQqXoYC3/zJvkU7K/aP44Y+z7xQuJiVnB/422P/Ak+F/AqFR7E4Wr"
           crossOrigin="anonymous"
         ></script>
+        <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
       </head>
       <body>
         <Header />
