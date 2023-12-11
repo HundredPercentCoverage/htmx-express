@@ -7,6 +7,10 @@ body {
   font-family: Poppins;
 }
 
+button {
+  cursor: pointer;
+}
+
 .header {
   padding: 1em;
   display: flex;
