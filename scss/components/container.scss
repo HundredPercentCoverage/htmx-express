@@ -1,0 +1,5 @@
+@import '../utilities';
+
+.container {
+  @include centred-screen-xl;
+}

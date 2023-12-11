@@ -1,41 +1,7 @@
 @import './breakpoints';
+@import './utilities';
+@import './base';
 
-* {
-  color: inherit;
-  margin: 0;
-}
-
-body {
-  font-family: Poppins;
-}
-
-.container {
-  margin: 0 auto;
-  padding: 0 1em;
-  max-width: map-get($breakpoints, "xl");
-}
-
-.header {
-  padding: 1em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
-  background-color: black;
-
-  h2 {
-    font-weight: bold;
-  }
-
-  ul {
-    display: flex;
-    gap: 1em;
-    list-style: none;
-  }
-}
-
-.todo-list {
-  li {
-    font-weight: bold;
-  }
-}
+@import './components/header.scss';
+@import './components/container.scss';
+@import './components/todo-list.scss'

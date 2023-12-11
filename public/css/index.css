@@ -7,12 +7,6 @@ body {
   font-family: Poppins;
 }
 
-.container {
-  margin: 0 auto;
-  padding: 0 1em;
-  max-width: 1200px;
-}
-
 .header {
   padding: 1em;
   display: flex;
@@ -28,6 +22,12 @@ body {
   display: flex;
   gap: 1em;
   list-style: none;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 1em;
+  max-width: 1200px;
 }
 
 .todo-list li {
