@@ -5,7 +5,7 @@ const LoginPage = () => {
     <RootLayout title="Sign In">
       <div className="container">
         <h1>Sign In</h1>
-        <form action="/auth/login" method="post">
+        <form hx-post="/auth/login" hx-disabled-elt="#login-submit">
           <section>
             <label htmlFor="username">Username</label>
             <input
@@ -27,7 +27,9 @@ const LoginPage = () => {
               required
             />
           </section>
-          <button type="submit">Sign in</button>
+          <button type="submit" id="login-submit">
+            Sign in
+          </button>
         </form>
       </div>
     </RootLayout>
