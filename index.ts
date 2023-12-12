@@ -7,9 +7,19 @@ import { PrismaClient } from "@prisma/client";
 import authRouter from "./routes/auth";
 import indexRouter from "./routes/index";
 import passport from "passport";
+import livereload from "livereload";
+import connectLivereload from "connect-livereload";
 
+const liveReloadServer = livereload.createServer();
+liveReloadServer.server.once("connection", () => {
+  setTimeout(() => {
+    liveReloadServer.refresh("/");
+  }, 100);
+});
 const prisma = new PrismaClient();
 const app = express();
+
+app.use(connectLivereload({ port: 35729 }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

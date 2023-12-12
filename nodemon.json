@@ -1,3 +1,3 @@
 {
-  "ext": "ts,tsx,ejs"
+  "ext": "ts,tsx,ejs,jsx,js"
 }
