@@ -9,7 +9,7 @@ interface Props {
 const HomePage = ({ todos }: Props) => {
   return (
     <RootLayout title="Home">
-      <main className="container">
+      <main className="mx-auto max-w-screen-xl px-2">
         <h1>My Todo List</h1>
         <p>Todos:</p>
         <TodoList todos={todos} />
