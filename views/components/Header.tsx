@@ -1,9 +1,9 @@
 const Header: React.FC = () => {
   return (
-    <header className="header">
+    <header className="w-full bg-black text-white flex justify-between items-center p-2">
       <h2>To Do</h2>
       <nav>
-        <ul>
+        <ul className="flex gap-2 items-center list-none">
           <li>
             <a href="#">Link 1</a>
           </li>

@@ -7,7 +7,9 @@
     "dev": "nodemon index.ts",
     "start": "node ./dist/index.js",
     "sass": "sass ./scss/index.scss ./public/css/index.css --watch --no-source-map",
+    "tailwind": "npx tailwindcss -i ./styles/input.css -o ./public/css/index.css --watch",
     "dev:sass": "concurrently \"npm:sass\" \"npm:dev\"",
+    "dev:tw": "concurrently \"npm:tailwind\" \"npm:dev\"",
     "clean": "rimraf ./dist",
     "copy-static": "cp -r ./views ./dist/views && cp -r ./public ./dist/public",
     "build": "npm run clean && npx tsc && npm run copy-static"
@@ -47,6 +49,7 @@
     "prettier": "^3.1.0",
     "prisma": "^5.6.0",
     "rimraf": "^5.0.5",
+    "tailwindcss": "^3.3.6",
     "typescript": "^5.2.2"
   }
 }
