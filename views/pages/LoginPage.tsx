@@ -3,7 +3,7 @@ import RootLayout from "./layout";
 const LoginPage = () => {
   return (
     <RootLayout title="Sign In">
-      <div className="container">
+      <main className="mx-auto max-w-screen-xl px-2">
         <h1>Sign In</h1>
         <form hx-post="/auth/login" hx-disabled-elt="#login-submit">
           <section>
@@ -31,7 +31,7 @@ const LoginPage = () => {
             Sign in
           </button>
         </form>
-      </div>
+      </main>
     </RootLayout>
   );
 };
